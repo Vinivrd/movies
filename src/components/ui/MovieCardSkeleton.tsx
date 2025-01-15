@@ -1,6 +1,6 @@
 export default function MovieCardSkeleton() {
   return (
-    <div className="relative w-full aspect-video rounded-lg overflow-hidden animate-pulse">
+    <div className="relative w-full aspect-[2/3] rounded-lg overflow-hidden animate-pulse">
       {/* Thumbnail */}
       <div className="w-full h-full bg-gray-700" />
       
