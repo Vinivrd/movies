@@ -4,37 +4,26 @@ import { useEffect, useState } from 'react'
 import MovieCard from '@/components/ui/MovieCard'
 import MovieCardSkeleton from '@/components/ui/MovieCardSkeleton'
 
-interface Movie {
-  id: string
-  title: string
-  thumbnail: string
-  duration: string
-  views: string
-}
+const movies = [
+  {
+    id: '1',
+    title: 'O Senhor dos Anéis',
+    thumbnail: 'https://image.tmdb.org/t/p/original/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg',
+    duration: '2:30',
+    views: '1.2M'
+  },
+  // ... outros filmes
+]
 
 export default function FeaturedMovies() {
-  const [movies, setMovies] = useState<Movie[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    setTimeout(() => {
-      setMovies([
-        {
-          id: '1',
-          title: 'O Senhor dos Anéis',
-          thumbnail: 'https://image.tmdb.org/t/p/original/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg',
-          duration: '2:30',
-          views: '1.2M'
-        },
-        // ... outros filmes
-      ])
+    const timer = setTimeout(() => {
       setIsLoading(false)
     }, 2000)
+    return () => clearTimeout(timer)
   }, [])
-
-  const handlePlayMovie = (movieId: string) => {
-    console.log(`Reproduzindo filme ${movieId}`)
-  }
 
   return (
     <section id="featured-movies" className="container mx-auto px-4 py-8">
@@ -50,7 +39,7 @@ export default function FeaturedMovies() {
             <MovieCard
               key={movie.id}
               {...movie}
-              onPlay={() => handlePlayMovie(movie.id)}
+              onPlay={() => console.log(`Reproduzindo filme ${movie.id}`)}
             />
           ))
         )}
