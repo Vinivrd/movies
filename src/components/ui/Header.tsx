@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 import { Bell, User, Menu, Search } from 'lucide-react'
 import { Input } from "@/components/ui/Input"
@@ -26,7 +28,7 @@ export default function Header() {
         <nav className="py-2">
           <ul className="flex space-x-6 overflow-x-auto whitespace-nowrap">
             <li><Link href="/" className="text-gray-300 hover:text-white">Página Inicial</Link></li>
-            <li><Link href="/series" className="text-gray-300 hover:text-white">Vídeos</Link></li>
+            <li><Link href="/videos" className="text-gray-300 hover:text-white">Vídeos</Link></li>
             <li><Link href="/movies" className="text-gray-300 hover:text-white">Categorias</Link></li>
             <li><Link href="/new" className="text-gray-300 hover:text-white">Modelos</Link></li>
             <li><Link href="/mylist" className="text-gray-300 hover:text-white">Minha Lista</Link></li>
