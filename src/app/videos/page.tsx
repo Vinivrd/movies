@@ -1,8 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import VideoCard from '@/components/ui/VideoCard'
-import VideoCardSkeleton from '@/components/ui/VideoCardSkeleton'
+import MediaCard from '@/components/ui/MediaCard'
+import MediaCardSkeleton from '@/components/ui/MediaCardSkeleton'
 import Header from '@/components/ui/Header'
 
 interface Video {
@@ -68,11 +68,11 @@ export default function VideosPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {isLoading ? (
             Array.from({ length: 8 }).map((_, index) => (
-              <VideoCardSkeleton key={index} />
+              <MediaCardSkeleton key={index} />
             ))
           ) : (
             videos.map(video => (
-              <VideoCard
+              <MediaCard
                 key={video.id}
                 {...video}
                 onPlay={() => handlePlayVideo(video.id)}

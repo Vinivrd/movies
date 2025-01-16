@@ -1,8 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import MovieCard from '@/components/ui/MovieCard'
-import MovieCardSkeleton from '@/components/ui/MovieCardSkeleton'
+import MediaCard from '@/components/ui/MediaCard'
+import MediaCardSkeleton from '@/components/ui/MediaCardSkeleton'
 
 const movies = [
   {
@@ -32,11 +32,11 @@ export default function FeaturedMovies() {
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
         {isLoading ? (
           Array.from({ length: 10 }).map((_, index) => (
-            <MovieCardSkeleton key={index} />
+            <MediaCardSkeleton key={index} />
           ))
         ) : (
           movies.map(movie => (
-            <MovieCard
+            <MediaCard
               key={movie.id}
               {...movie}
               onPlay={() => console.log(`Reproduzindo filme ${movie.id}`)}
