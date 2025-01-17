@@ -87,7 +87,7 @@ export default function Header() {
             </li>
             <li>
               <Link 
-                href="/new" 
+                href="/modelos" 
                 className="text-gray-300 hover:text-white flex items-center gap-1"
                 onMouseEnter={() => handleMouseEnter('model')}
                 onMouseLeave={handleMouseLeave}
