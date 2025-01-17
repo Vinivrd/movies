@@ -8,9 +8,10 @@ import { Loader2, X } from 'lucide-react'
 
 interface SignUpProps {
   onClose?: () => void
+  onSwitchToSignIn?: () => void
 }
 
-export default function SignUp({ onClose }: SignUpProps) {
+export default function SignUp({ onClose, onSwitchToSignIn }: SignUpProps) {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
@@ -27,6 +28,13 @@ export default function SignUp({ onClose }: SignUpProps) {
       setError('Erro ao criar conta. Tente novamente.')
     } finally {
       setIsLoading(false)
+    }
+  }
+  const handleSwitchToSignIn = () => {
+    if (onSwitchToSignIn) {
+      onSwitchToSignIn()
+    } else {
+      router.push('/auth/signin')
     }
   }
 
@@ -57,7 +65,7 @@ export default function SignUp({ onClose }: SignUpProps) {
         )}
         
         <div className="text-center">
-          <Link href="/" className="text-red-600 text-4xl font-bold">VRDFLIX</Link>
+          <span className="text-red-600 text-4xl font-bold">VRDFLIX</span>
           <h2 className="mt-6 text-2xl font-bold text-white">Criar uma conta</h2>
           <p className="mt-2 text-sm text-gray-400">
             Comece sua jornada de streaming hoje
@@ -134,12 +142,13 @@ export default function SignUp({ onClose }: SignUpProps) {
           </div>
 
           <div className="text-center">
-            <p className="text-sm text-gray-400">
+            <span className="text-sm text-gray-400">
               Já tem uma conta?{' '}
-              <Link href="/auth/signin" className="font-medium text-red-600 hover:text-red-500">
+              <span className="font-medium text-red-600 hover:text-red-500 cursor-pointer"
+              onClick={handleSwitchToSignIn}>
                 Faça login
-              </Link>
-            </p>
+              </span>
+            </span>
           </div>
         </form>
       </div>

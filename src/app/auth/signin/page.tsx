@@ -3,9 +3,14 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Loader2 } from 'lucide-react'
+import { Loader2, X } from 'lucide-react'
 
-export default function SignIn() {
+interface SignInProps {
+  onClose?: () => void
+  onSwitchToSignUp?: () => void
+}
+
+export default function SignIn({ onClose, onSwitchToSignUp }: SignInProps) {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
@@ -15,9 +20,7 @@ export default function SignIn() {
     setIsLoading(true)
     setError('')
 
-    // Aqui você implementará a lógica de autenticação
     try {
-      // Simular um delay de autenticação
       await new Promise(resolve => setTimeout(resolve, 1000))
       router.push('/')
     } catch (err) {
@@ -27,15 +30,33 @@ export default function SignIn() {
     }
   }
 
+  const handleSwitchToSignUp = () => {
+    if (onSwitchToSignUp) {
+      onSwitchToSignUp()
+    } else {
+      router.push('/auth/signup')
+    }
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black bg-opacity-90">
-      <div className="max-w-md w-full space-y-8 p-8 bg-gray-900 rounded-lg shadow-xl">
+    <div className="bg-gray-900 rounded-lg shadow-xl overflow-hidden w-full max-w-md mx-auto">
+      <div className="p-8 space-y-8 relative">
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="absolute right-4 top-4 flex items-center justify-center w-8 h-8 text-gray-400 hover:text-white transition-colors"
+            aria-label="Fechar"
+          >
+            <X className="w-6 h-6" />
+          </button>
+        )}
+
         <div className="text-center">
           <Link href="/" className="text-red-600 text-4xl font-bold">VRDFLIX</Link>
           <h2 className="mt-6 text-2xl font-bold text-white">Entre na sua conta</h2>
         </div>
 
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
             <div>
               <label htmlFor="email" className="text-sm font-medium text-gray-300">
@@ -85,16 +106,19 @@ export default function SignIn() {
               )}
             </button>
           </div>
-        </form>
 
-        <div className="text-center mt-4">
-          <p className="text-sm text-gray-400">
-            Ainda não tem uma conta?{' '}
-            <Link href="/auth/signup" className="font-medium text-red-600 hover:text-red-500">
-              Cadastre-se
-            </Link>
-          </p>
-        </div>
+          <div className="text-center">
+            <span className="text-sm text-gray-400">
+              Ainda não tem uma conta?{' '}
+              <span 
+                className="font-medium text-red-600 hover:text-red-500 cursor-pointer"
+                onClick={handleSwitchToSignUp}
+              >
+                Cadastre-se
+              </span>
+            </span>
+          </div>
+        </form>
       </div>
     </div>
   )

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
 import SignUp from '@/app/auth/signup/page'
+import SignIn from '@/app/auth/signin/page'
 
 interface AssineProps {
   className?: string
@@ -21,6 +22,7 @@ export function Assine({
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [showModal, setShowModal] = useState(false)
+  const [modalType, setModalType] = useState<'signin' | 'signup'>('signup')
 
   const baseStyles = 'inline-flex items-center justify-center font-medium transition-all duration-200 rounded-md'
   const variantStyles = {
@@ -49,8 +51,13 @@ export function Assine({
       router.push('/auth/signout')
     } else {
       setShowModal(true)
+      setModalType('signup')
     }
     setIsLoading(false)
+  }
+
+  const switchModal = (type: 'signin' | 'signup') => {
+    setModalType(type)
   }
 
   return (
@@ -77,7 +84,17 @@ export function Assine({
             onClick={() => setShowModal(false)}
           />
           <div className="relative z-50 w-full max-w-md animate-fadeIn">
-            <SignUp onClose={() => setShowModal(false)} />
+            {modalType === 'signup' ? (
+              <SignUp 
+                onClose={() => setShowModal(false)} 
+                onSwitchToSignIn={() => switchModal('signin')}
+              />
+            ) : (
+              <SignIn 
+                onClose={() => setShowModal(false)}
+                onSwitchToSignUp={() => switchModal('signup')}
+              />
+            )}
           </div>
         </div>
       )}
