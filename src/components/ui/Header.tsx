@@ -63,7 +63,7 @@ export default function Header() {
             <li><Link href="/videos" className="text-gray-300 hover:text-white">Vídeos</Link></li>
             <li>
               <Link 
-                href="/movies" 
+                href="/category" 
                 className="text-gray-300 hover:text-white flex items-center gap-1"
                 onMouseEnter={() => handleMouseEnter('category')}
                 onMouseLeave={handleMouseLeave}
