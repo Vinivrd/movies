@@ -1,11 +1,29 @@
 'use client'
 
+import { useState, useRef } from 'react'
 import Link from 'next/link'
 import { Bell, User, Menu, Search } from 'lucide-react'
 import { Input } from "@/components/ui/Input"
 import { Assine } from "@/components/ui/Assine"
+import { CategoryDropdown } from "@/components/ui/dropdown/CategoryDropdown"
 
 export default function Header() {
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const closeTimerRef = useRef<NodeJS.Timeout | undefined>(undefined);
+
+  const handleMouseEnter = () => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+    }
+    setIsCategoryOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    closeTimerRef.current = setTimeout(() => {
+      setIsCategoryOpen(false);
+    }, 800); // 2 segundos
+  };
+
   return (
     <header className="fixed top-0 z-50 w-full bg-black bg-opacity-90">
       <div className="container mx-auto px-4">
@@ -36,14 +54,44 @@ export default function Header() {
           </div>
         </div>
 
-        <nav className="py-2">
+        <nav className="py-2 relative">
           <ul className="flex space-x-6 overflow-x-auto whitespace-nowrap">
             <li><Link href="/" className="text-gray-300 hover:text-white">Página Inicial</Link></li>
             <li><Link href="/videos" className="text-gray-300 hover:text-white">Vídeos</Link></li>
-            <li><Link href="/movies" className="text-gray-300 hover:text-white">Categorias</Link></li>
-            <li><Link href="/new" className="text-gray-300 hover:text-white">Modelos</Link></li>
+            <li>
+              <Link 
+                href="/movies" 
+                className="text-gray-300 hover:text-white flex items-center gap-1"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+              >
+                Categorias
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  className="h-4 w-4" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M19 9l-7 7-7-7" 
+                  />
+                </svg>
+              </Link>
+            </li>
+            <li>
+              <Link href="/new" className="text-gray-300 hover:text-white">Modelos</Link>
+            </li>
             <li><Link href="/mylist" className="text-gray-300 hover:text-white">Minha Lista</Link></li>
           </ul>
+          <CategoryDropdown 
+            isOpen={isCategoryOpen} 
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          />
         </nav>
       </div>
     </header>
