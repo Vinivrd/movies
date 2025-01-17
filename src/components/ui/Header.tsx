@@ -6,22 +6,25 @@ import { Bell, User, Menu, Search } from 'lucide-react'
 import { Input } from "@/components/ui/Input"
 import { Assine } from "@/components/ui/Assine"
 import { CategoryDropdown } from "@/components/ui/dropdown/CategoryDropdown"
+import { ModelDropdown } from "@/components/ui/dropdown/ModelDropdown"
+
+type DropdownType = 'category' | 'model' | null;
 
 export default function Header() {
-  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<DropdownType>(null);
   const closeTimerRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
-  const handleMouseEnter = () => {
+  const handleMouseEnter = (type: DropdownType) => {
     if (closeTimerRef.current) {
       clearTimeout(closeTimerRef.current);
     }
-    setIsCategoryOpen(true);
+    setActiveDropdown(type);
   };
 
   const handleMouseLeave = () => {
     closeTimerRef.current = setTimeout(() => {
-      setIsCategoryOpen(false);
-    }, 800); // 2 segundos
+      setActiveDropdown(null);
+    }, 800);
   };
 
   return (
@@ -62,7 +65,7 @@ export default function Header() {
               <Link 
                 href="/movies" 
                 className="text-gray-300 hover:text-white flex items-center gap-1"
-                onMouseEnter={handleMouseEnter}
+                onMouseEnter={() => handleMouseEnter('category')}
                 onMouseLeave={handleMouseLeave}
               >
                 Categorias
@@ -83,13 +86,39 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link href="/new" className="text-gray-300 hover:text-white">Modelos</Link>
+              <Link 
+                href="/new" 
+                className="text-gray-300 hover:text-white flex items-center gap-1"
+                onMouseEnter={() => handleMouseEnter('model')}
+                onMouseLeave={handleMouseLeave}
+              >
+                Modelos
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  className="h-4 w-4" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M19 9l-7 7-7-7" 
+                  />
+                </svg>
+              </Link>
             </li>
             <li><Link href="/mylist" className="text-gray-300 hover:text-white">Minha Lista</Link></li>
           </ul>
           <CategoryDropdown 
-            isOpen={isCategoryOpen} 
-            onMouseEnter={handleMouseEnter}
+            isOpen={activeDropdown === 'category'} 
+            onMouseEnter={() => handleMouseEnter('category')}
+            onMouseLeave={handleMouseLeave}
+          />
+          <ModelDropdown 
+            isOpen={activeDropdown === 'model'} 
+            onMouseEnter={() => handleMouseEnter('model')}
             onMouseLeave={handleMouseLeave}
           />
         </nav>

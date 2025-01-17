@@ -37,7 +37,7 @@ export function CategoryDropdown({ isOpen, onMouseEnter, onMouseLeave }: Categor
 
   return (
     <div 
-      className="absolute top-full left-0 w-full bg-black bg-opacity-90 h-[300px] border-t border-gray-800 p-6"
+      className="absolute top-full left-0 w-full bg-black  h-[300px] border-t border-gray-800 p-6 rounded-lg"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
